@@ -6,8 +6,9 @@ import java.util.Vector;
 public class Driver {
     public static void main(String[] args) {
         // authenticateUser();
-        int choice = initialOption();
-        System.out.println("choice selected " + choice);
+        // int choice = initialOption();
+        // System.out.println("choice selected " + choice);
+        System.out.println(authenticateUser());
 
     }
 
