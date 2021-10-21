@@ -11,31 +11,38 @@ public class Driver {
 
         Vector<String> options = new Vector<>(2);
         options.add("Authenticate User");
+        options.add("Add Product");
         options.add("Show Products");
         options.add("Exit");
 
-        switch (Utils.showOptions(options, scanner)) {
-        case 0:
-            authenticateUser(scanner);
-            break;
+        Products products = new Products();
 
-        case 1:
-            Products products = new Products();
-            products.addProduct();
-            Utils.print(products.getProducts());
-            break;
-
-        default:
-            break;
+        boolean flag = true;
+        while (flag) {
+            switch (Utils.showOptions(options, scanner)) {
+            case 0:
+                authenticateUser(scanner);
+                break;
+    
+            case 1:
+                products.addProduct(scanner);
+                break;
+    
+            case 2:
+                Utils.print(products.getProducts());
+                break;
+    
+            default:
+                flag = false;
+                break;
+            }
         }
-
         scanner.close();
     }    
 
     public static void authenticateUser(Scanner scanner) {
         // get phone number from user
-        Utils.print("Phone: ", true);
-        String userPhone = Utils.getIntInRange(10, 10, scanner);
+        String userPhone = Integer.toString(Utils.getIntInRange("Phone: ", 10, 10, scanner));
 
         // initiate the PhoneOtp class
         PhoneOtp phoneOtp = new PhoneOtp(userPhone);
@@ -45,8 +52,7 @@ public class Driver {
 
         while (true) {
             // get otp from user
-            Utils.print("OTP: ", true);
-            String userOtp = Utils.getIntInRange(6, 6, scanner);
+            String userOtp = Integer.toString(Utils.getIntInRange("OTP: ", 6, 6, scanner));
 
             // validate otp
             if (userOtp.equals("exit")) {

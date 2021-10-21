@@ -26,8 +26,25 @@ public class Utils {
         }
     }
 
-    public static String getIntInRange(int minLength, int maxLength, Scanner scanner) {
+    // getting values
+    public static String getStringInRange(String prompt, int minLength, int maxLength, Scanner scanner) {
+        String validString = "-1";
+        print(prompt, true);
+        while (scanner.hasNext()) {
+            validString = scanner.next();
+            if (String.valueOf(validString).length() <= maxLength
+                    && String.valueOf(validString).length() >= minLength) {
+                break;
+            } else {
+                print("Invalid input String. Try again...");
+                print(prompt, true);
+            }
+        }
+        return validString;
+    }
+    public static int getIntInRange(String prompt, int minLength, int maxLength, Scanner scanner) {
         int validInteger = -1;
+        print(prompt, true);
         while (scanner.hasNext()) {
             if (scanner.hasNextInt()) {
                 validInteger = scanner.nextInt();
@@ -36,13 +53,37 @@ public class Utils {
                     break;
                 } else {
                     print("Invalid input integer. Try again...");
+                    print(prompt, true);
                 }
             } else {
                 print("Invalid input. Must be an integer, try again...");
+                print(prompt, true);
                 scanner.next();
             }
         }
-        return Integer.toString(validInteger);
+        return validInteger;
+    }
+    public static Double getDoubleInRange(String prompt, Double minLength, Double maxLength, Scanner scanner) {
+        Double validDouble = -1.00;
+        print(prompt, true);
+        while (scanner.hasNext()) {
+            if (scanner.hasNextDouble()) {
+                validDouble = scanner.nextDouble();
+                if (String.valueOf(validDouble).length() <= maxLength
+                        && String.valueOf(validDouble).length() >= minLength) {
+                    break;
+                } else {
+                    print("Invalid input double. Try again...");
+                    print(prompt, true);
+                }
+            } else {
+                print("Invalid input. Must be an double, try again...");
+                print(prompt, true);
+                scanner.next();
+            }
+        }
+        print("", true);
+        return validDouble;
     }
 
     // handle printing to console using method overloading
@@ -60,7 +101,10 @@ public class Utils {
         System.out.println(printThis);
     }
     
-    public static void print(Vector<String> printThis) {
-        System.out.println(printThis);
+    public static void print(Vector<Product> printThis) {
+        for (Product element : printThis) {
+            System.out.println(element);
+            System.out.println();
+        }
     }
 }
