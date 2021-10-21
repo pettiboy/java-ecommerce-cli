@@ -7,8 +7,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 
 public class Products {
     private Vector<Product> products = new Vector<>();
@@ -45,7 +43,7 @@ public class Products {
     }
 
     public void addProduct(Scanner scanner) {
-        int id = (int) numOfLinesIn("products.csv");
+        int id = (int) Utils.numOfLinesIn("products.csv");
         String name = Utils.getStringInRange("Product Name: ", 1, 30, scanner);
         Double price = Utils.getDoubleInRange("Product Price: ", 1.0, 1000.0, scanner);
         String description = Utils.getStringInRange("Product Description: ", 1, 100, scanner);
@@ -70,14 +68,7 @@ public class Products {
         }
     }
 
-    public long numOfLinesIn(String fileName) {
-        try {
-            return Files.lines(new File(fileName).toPath(), Charset.defaultCharset()).count() + 1;
-        } catch (Exception e) {
-            e.getStackTrace();
-        }
-        return 100000;
-    }
+    
 }
 
 class Product {

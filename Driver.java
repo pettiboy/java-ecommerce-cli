@@ -4,7 +4,7 @@ import java.util.Scanner;
 import java.util.Vector;
 
 public class Driver {
-    static boolean isAuthenticated = false;
+    static User user;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -26,7 +26,11 @@ public class Driver {
                 break;
     
             case 1:
-                products.addProduct(scanner);
+                if (user.isStaff) {
+                    products.addProduct(scanner);
+                } else {
+                    Utils.print("You do not have permission to add products.");
+                }
                 break;
     
             case 2:
@@ -43,7 +47,7 @@ public class Driver {
 
     public static void authenticateUser(Scanner scanner) {
         // get phone number from user
-        String userPhone = Integer.toString(Utils.getIntInRange("Phone: ", 10, 10, scanner));
+        String userPhone = "" + Utils.getBigIntInRange("Phone: ", 10, 10, scanner);
 
         // initiate the PhoneOtp class
         PhoneOtp phoneOtp = new PhoneOtp(userPhone);
@@ -59,10 +63,10 @@ public class Driver {
             if (userOtp.equals("exit")) {
                 return;
             } else if (phoneOtp.validateOtp(userPhone, userOtp)) {
-                isAuthenticated = true;
+                user = new User(userPhone, scanner);
                 return;
             }
-            Utils.print("Incorrect OTP. Try again or type 'exit' to quit.");
+            Utils.print("Incorrect OTP. Try again...");
         }
     }
 

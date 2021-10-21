@@ -3,6 +3,12 @@ package UML;
 import java.util.Scanner;
 import java.util.Vector;
 
+import java.io.File;
+import java.math.BigInteger;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+
+
 public class Utils {
 
     public static int showOptions(Vector<String> options, Scanner scanner) {
@@ -62,6 +68,30 @@ public class Utils {
         }
         return validInteger;
     }
+
+    public static BigInteger getBigIntInRange(String prompt, int minLength, int maxLength, Scanner scanner) {
+        BigInteger validInteger = new BigInteger("-1");
+        print(prompt, true);
+        while (scanner.hasNext()) {
+            if (scanner.hasNext()) {
+                validInteger = scanner.nextBigInteger();
+
+                if (String.valueOf(validInteger).length() <= maxLength
+                        && String.valueOf(validInteger).length() >= minLength) {
+                    break;
+                } else {
+                    print("Invalid input integer. Try again...");
+                    print(prompt, true);
+                }
+            } else {
+                print("Invalid input. Must be an integer, try again...");
+                print(prompt, true);
+                scanner.next();
+            }
+        }
+        return validInteger;
+    }
+
     public static Double getDoubleInRange(String prompt, Double minLength, Double maxLength, Scanner scanner) {
         Double validDouble = -1.00;
         print(prompt, true);
@@ -83,6 +113,16 @@ public class Utils {
         }
         print("", true);
         return validDouble;
+    }
+
+    // file management
+    public static long numOfLinesIn(String fileName) {
+        try {
+            return Files.lines(new File(fileName).toPath(), Charset.defaultCharset()).count() + 1;
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+        return 100000;
     }
 
     // handle printing to console using method overloading
