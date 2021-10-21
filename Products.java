@@ -4,6 +4,7 @@ import java.util.Scanner;
 import java.util.Vector;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 
 import java.nio.charset.Charset;
@@ -17,7 +18,26 @@ public class Products {
      * in the class
      **/
     Products() {
-
+        File file = new File("products.csv");
+        Scanner fileScanner;
+        try {
+            fileScanner = new Scanner(file);
+            // process the file, one line at a time
+            while (fileScanner.hasNextLine()) {
+                String[] line = fileScanner.nextLine().split(",");
+                if (line[4].equals("true")) {
+                    Product product = new Product(
+                                        Integer.parseInt(line[0]), 
+                                        line[1], 
+                                        Double.parseDouble(line[2]),
+                                        line[3]);
+                    this.products.add(product);
+                }
+            }
+            fileScanner.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public Vector<Product> getProducts() {
@@ -75,17 +95,12 @@ class Product {
     }
 
     public String toString() {
-        return "ID: " + this.id.toString() + "\n" + 
-                "Name: " + this.name + "\n" + 
-                "Price: " + this.price.toString() + "\n" + 
-                "Description: " + this.description.toString();
+        return "ID: " + this.id.toString() + "\n" + "Name: " + this.name + "\n" + "Price: " + this.price.toString()
+                + "\n" + "Description: " + this.description.toString();
     }
 
     public String csvString() {
-        return this.id.toString() + "," + 
-                this.name + "," + 
-                this.price.toString() + "," +  
-                this.description + "," + 
-                this.isActive;
+        return this.id.toString() + "," + this.name + "," + this.price.toString() + "," + this.description + ","
+                + this.isActive;
     }
 }

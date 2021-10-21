@@ -1,1 +1,1 @@
-# Java ECommerce CLI
+# Java E-Commerce CLI
