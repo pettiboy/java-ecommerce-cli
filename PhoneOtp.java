@@ -6,14 +6,11 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
 public class PhoneOtp {
-    String phone;
-    String otp;
+    private String phone;
+    private String otp;
 
     public PhoneOtp(String phone) {
         this.phone = phone;
-    }
-
-    public void main(String[] args) {
     }
 
     public boolean generateOtp() {

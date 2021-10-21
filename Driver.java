@@ -4,16 +4,33 @@ import java.util.Scanner;
 import java.util.Vector;
 
 public class Driver {
-    boolean isAuthenticated = false;
+    static boolean isAuthenticated = false;
 
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        print(getIntInRange(10, 10, scanner));
+
         Vector<String> options = new Vector<>(2);
-        options.add("try this");
-        options.add("try also");
-        print(showOptions(options));
+        options.add("Authenticate User");
+        options.add("Exit");
+
+        switch (showOptions(options, scanner)) {
+        case 0:
+            authenticateUser(scanner);
+            break;
+
+        case 1:
+            break;
+
+        default:
+            break;
+        }
+
+        scanner.close();
     }
 
-    private static int showOptions(Vector<String> options) {
+    private static int showOptions(Vector<String> options, Scanner scanner) {
         // create a vector to store valid options ids
         Vector<Integer> validOptions = new Vector<>(options.size());
 
@@ -25,20 +42,19 @@ public class Driver {
 
         // keep asking user for input till correct choice is chosen
         while (true) {
-            Scanner input = new Scanner(System.in);
+            Scanner input = scanner;
             int choice = Integer.parseInt(input.next());
             if (validOptions.contains(choice)) {
-                input.close();
                 return choice - 1;
             }
             print("Invalid choice. Try again.");
         }
     }
 
-    public void authenticateUser() {
+    public static void authenticateUser(Scanner scanner) {
         // get phone number from user
         print("Phone: ", true);
-        String userPhone = getString();
+        String userPhone = getIntInRange(10, 10, scanner);
 
         // initiate the PhoneOtp class
         PhoneOtp phoneOtp = new PhoneOtp(userPhone);
@@ -49,23 +65,36 @@ public class Driver {
         while (true) {
             // get otp from user
             print("OTP: ", true);
-            String userOtp = getString();
+            String userOtp = getIntInRange(6, 6, scanner);
 
             // validate otp
             if (userOtp.equals("exit")) {
                 return;
             } else if (phoneOtp.validateOtp(userPhone, userOtp)) {
-                this.isAuthenticated = true;
+                isAuthenticated = true;
                 return;
             }
             print("Incorrect OTP. Try again or type 'exit' to quit.");
         }
     }
 
-    public static String getString() {
-        Scanner input = new Scanner(System.in);
-        String name = input.next();
-        return name;
+    private static String getIntInRange(int minLength, int maxLength, Scanner scanner) {
+        int validInteger = -1;
+        while (scanner.hasNext()) {
+            if (scanner.hasNextInt()) {
+                validInteger = scanner.nextInt();
+                if (String.valueOf(validInteger).length() <= maxLength
+                        && String.valueOf(validInteger).length() >= minLength) {
+                    break;
+                } else {
+                    print("Invalid input integer. Try again...");
+                }
+            } else {
+                print("Invalid input. Must be an integer, try again...");
+                scanner.next();
+            }
+        }
+        return Integer.toString(validInteger);
     }
 
     // handle printing to console using method overloading
@@ -74,11 +103,13 @@ public class Driver {
             System.out.print(printThis);
         }
     }
+
     private static void print(String printThis) {
         System.out.println(printThis);
     }
-    private static void print(Integer printThis) {
-        System.out.println(printThis);
-    }
-    
+
+    // private static void print(Integer printThis) {
+    //     System.out.println(printThis);
+    // }
+
 }
