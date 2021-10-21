@@ -4,39 +4,40 @@ import java.util.Scanner;
 import java.util.Vector;
 
 public class Driver {
-    public static void main(String[] args) {
-        // authenticateUser();
-        // int choice = initialOption();
-        // System.out.println("choice selected " + choice);
-        System.out.println(authenticateUser());
+    boolean isAuthenticated = false;
 
+    public static void main(String[] args) {
+        Vector<String> options = new Vector<>(2);
+        options.add("try this");
+        options.add("try also");
+        print(showOptions(options));
     }
 
-    private static int initialOption() {
-        Vector<Integer> validOptions = new Vector<>(3);
-        validOptions.add(1);
-        validOptions.add(2);
-        validOptions.add(3);
+    private static int showOptions(Vector<String> options) {
+        // create a vector to store valid options ids
+        Vector<Integer> validOptions = new Vector<>(options.size());
 
-        System.out.println("1. Login \n2. View Catalouge");
-        boolean validOption = false;
-        while (!validOption) {
+        // add option ids to the vector and print what that option does
+        for (int i = 0; i < options.size(); i++) {
+            validOptions.add(i + 1);
+            print(i + 1 + ") " + options.get(i));
+        }
+
+        // keep asking user for input till correct choice is chosen
+        while (true) {
             Scanner input = new Scanner(System.in);
             int choice = Integer.parseInt(input.next());
-
             if (validOptions.contains(choice)) {
                 input.close();
-                return choice;
+                return choice - 1;
             }
-
-            System.out.println("Invalid choice. Try again.");
+            print("Invalid choice. Try again.");
         }
-        return 0;
     }
 
-    public static boolean authenticateUser() {
+    public void authenticateUser() {
         // get phone number from user
-        System.out.print("Phone: ");
+        print("Phone: ", true);
         String userPhone = getString();
 
         // initiate the PhoneOtp class
@@ -47,16 +48,17 @@ public class Driver {
 
         while (true) {
             // get otp from user
-            System.out.print("OTP: ");
+            print("OTP: ", true);
             String userOtp = getString();
 
             // validate otp
             if (userOtp.equals("exit")) {
-                return false;
+                return;
             } else if (phoneOtp.validateOtp(userPhone, userOtp)) {
-                return true;
+                this.isAuthenticated = true;
+                return;
             }
-            System.out.println("Incorrect OTP. Try again or type 'exit' to quit.");
+            print("Incorrect OTP. Try again or type 'exit' to quit.");
         }
     }
 
@@ -65,4 +67,18 @@ public class Driver {
         String name = input.next();
         return name;
     }
+
+    // handle printing to console using method overloading
+    private static void print(String printThis, boolean noNewLine) {
+        if (noNewLine) {
+            System.out.print(printThis);
+        }
+    }
+    private static void print(String printThis) {
+        System.out.println(printThis);
+    }
+    private static void print(Integer printThis) {
+        System.out.println(printThis);
+    }
+    
 }
