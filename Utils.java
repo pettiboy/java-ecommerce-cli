@@ -28,12 +28,11 @@ public class Utils {
 
     // getting values
     public static String getStringInRange(String prompt, int minLength, int maxLength, Scanner scanner) {
-        String validString = "-1";
+        String validString = "";
         print(prompt, true);
         while (scanner.hasNext()) {
-            validString = scanner.next();
-            if (String.valueOf(validString).length() <= maxLength
-                    && String.valueOf(validString).length() >= minLength) {
+            validString = scanner.next().toString();
+            if (validString.length() <= maxLength && validString.length() >= minLength) {
                 break;
             } else {
                 print("Invalid input String. Try again...");

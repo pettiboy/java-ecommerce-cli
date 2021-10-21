@@ -8,6 +8,7 @@ public class Driver {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        scanner.useDelimiter("\n");
 
         Vector<String> options = new Vector<>(2);
         options.add("Authenticate User");

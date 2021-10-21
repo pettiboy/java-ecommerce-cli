@@ -3,21 +3,60 @@ package UML;
 import java.util.Scanner;
 import java.util.Vector;
 
+import java.io.File;
+import java.io.FileWriter;
+
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+
 public class Products {
     private Vector<Product> products = new Vector<>();
+
+    /**
+     * on instantiation loads data from 'products.csv' to a vector called 'products'
+     * in the class
+     **/
+    Products() {
+
+    }
 
     public Vector<Product> getProducts() {
         return this.products;
     }
 
     public void addProduct(Scanner scanner) {
-        // int id = Utils.getIntInRange("Product ID: ", 1, 1000, scanner);
-        int id = this.products.size() + 1;
-        String name = Utils.getStringInRange("Product Name: ", 1, 1000, scanner);
+        int id = (int) numOfLinesIn("products.csv");
+        String name = Utils.getStringInRange("Product Name: ", 1, 30, scanner);
         Double price = Utils.getDoubleInRange("Product Price: ", 1.0, 1000.0, scanner);
+        String description = Utils.getStringInRange("Product Description: ", 1, 100, scanner);
 
-        Product product = new Product(id, name, price);
+        Product product = new Product(id, name, price, description);
         this.products.add(product);
+        addProductToFile(product);
+    }
+
+    public void addProductToFile(Product product) {
+        String data = product.csvString();
+        try {
+            // Creates a Writer using FileWriter
+            FileWriter writer = new FileWriter("products.csv", true);
+            // Writes string and line seperator to the file
+            writer.write(data);
+            writer.write(System.getProperty("line.separator"));
+            // Closes the writer
+            writer.close();
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+    }
+
+    public long numOfLinesIn(String fileName) {
+        try {
+            return Files.lines(new File(fileName).toPath(), Charset.defaultCharset()).count() + 1;
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+        return 100000;
     }
 }
 
@@ -25,14 +64,28 @@ class Product {
     Integer id;
     String name;
     Double price;
+    String description;
+    boolean isActive = true;
 
-    Product(Integer id, String name, double d) {
+    Product(Integer id, String name, double price, String description) {
         this.id = id;
         this.name = name;
-        this.price = d;
+        this.price = price;
+        this.description = description;
     }
 
     public String toString() {
-        return "ID: " + this.id.toString() + "\n" + "Name: " + this.name + "\n" + "Price: " + this.price.toString();
+        return "ID: " + this.id.toString() + "\n" + 
+                "Name: " + this.name + "\n" + 
+                "Price: " + this.price.toString() + "\n" + 
+                "Description: " + this.description.toString();
+    }
+
+    public String csvString() {
+        return this.id.toString() + "," + 
+                this.name + "," + 
+                this.price.toString() + "," +  
+                this.description + "," + 
+                this.isActive;
     }
 }
