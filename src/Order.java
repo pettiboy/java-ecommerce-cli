@@ -1,11 +1,11 @@
-package UML;
+package src;
 
 import java.util.Date;
 import java.util.Vector;
 
 public class Order {
     User user;
-    Vector<Integer> products = new Vector<>();
+    Vector<Product> products = new Vector<>();
     Date dateOrdered;
     boolean complete;
 
@@ -14,8 +14,16 @@ public class Order {
     }
     
     // add items to order (cart)
-    public void addToCart(int productId) {
-        this.products.add(productId);
+    public void addToCart(Product product) {
+        this.products.add(product);
+    }
+
+    public void getCartItems() {
+        if (this.products.size() > 0) {
+            Utils.print(this.products);
+        } else {
+            Utils.print("your cart is empty...");
+        }
     }
 
     public void completeOrder() {

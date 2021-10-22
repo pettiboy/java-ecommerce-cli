@@ -1,8 +1,7 @@
-package UML;
+package src;
 
 import java.util.Scanner;
 import java.util.Vector;
-
 import java.io.File;
 import java.math.BigInteger;
 import java.nio.charset.Charset;

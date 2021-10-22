@@ -1,8 +1,7 @@
-package UML;
+package src;
 
 import java.util.Scanner;
 import java.util.Vector;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -16,7 +15,7 @@ public class Products {
      * in the class
      **/
     Products() {
-        File file = new File("products.csv");
+        File file = new File("./data/products.csv");
         Scanner fileScanner;
         try {
             fileScanner = new Scanner(file);
@@ -52,7 +51,7 @@ public class Products {
     }
 
     public void addProduct(Scanner scanner) {
-        int id = (int) Utils.numOfLinesIn("products.csv");
+        int id = (int) Utils.numOfLinesIn("./data/products.csv");
         String name = Utils.getStringInRange("Product Name: ", 1, 30, scanner);
         Double price = Utils.getDoubleInRange("Product Price: ", 1.0, 1000.0, scanner);
         String description = Utils.getStringInRange("Product Description: ", 1, 100, scanner);
@@ -66,7 +65,7 @@ public class Products {
         String data = product.csvString();
         try {
             // Creates a Writer using FileWriter
-            FileWriter writer = new FileWriter("products.csv", true);
+            FileWriter writer = new FileWriter("./data/products.csv", true);
             // Writes string and line seperator to the file
             writer.write(data);
             writer.write(System.getProperty("line.separator"));

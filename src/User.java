@@ -1,4 +1,4 @@
-package UML;
+package src;
 
 import java.util.Date;
 import java.util.Scanner;
@@ -16,7 +16,7 @@ public class User {
     private boolean inDB = false;
     
     public User(String phone, Scanner scanner) {
-        this.id = (int) Utils.numOfLinesIn("users.csv");
+        this.id = (int) Utils.numOfLinesIn("./data/users.csv");
         this.phone = phone;
         this.address = getOrAddAddress(phone, scanner);
         this.timestamp = new Date();
@@ -25,7 +25,7 @@ public class User {
     }
 
     public String getOrAddAddress(String phone, Scanner scanner) {
-        File file = new File("users.csv");
+        File file = new File("./data/users.csv");
         Scanner fileScanner;
         try {
             fileScanner = new Scanner(file);
@@ -53,7 +53,7 @@ public class User {
         if (inDB) return;
         try {
             // Creates a Writer using FileWriter
-            FileWriter writer = new FileWriter("users.csv", true);
+            FileWriter writer = new FileWriter("./data/users.csv", true);
             // Writes string and line seperator to the file
             writer.write(data);
             writer.write(System.getProperty("line.separator"));

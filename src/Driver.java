@@ -1,4 +1,4 @@
-package UML;
+package src;
 
 import java.util.Scanner;
 import java.util.Vector;
@@ -16,6 +16,7 @@ public class Driver {
         options.add("Add Product");
         options.add("Show Products");
         options.add("Add To Cart");
+        options.add("View Your Cart");
         options.add("Exit");
 
         Products products = new Products();
@@ -41,24 +42,29 @@ public class Driver {
             
             case 3:
                 if (order != null) {
-                    boolean validProductId = false;
-                    int productId = 1; 
-                    while (!validProductId) {
-                        productId = Utils.getIntInRange("Add to cart, Product ID: ", 1, (int) Utils.numOfLinesIn("products.csv"), scanner);
-                        Product product = products.productIdToProduct(productId);
-                        if (product != null) {
-                            Utils.print(product.name + " Added to cart!");
-                            validProductId = true;
+                    Product selectedProduct = null;
+                    while (selectedProduct == null) {
+                        int productId = Utils.getIntInRange("Add to cart, Product ID: ", 1, 10000, scanner);
+                        selectedProduct = products.productIdToProduct(productId);
+                        if (selectedProduct != null) {
+                            Utils.print(selectedProduct.name + " Added to cart!");
                         } else {
                             Utils.print("Invalid Product ID, try again...");
                         }
                     }
-                    order.addToCart(productId);
+                    order.addToCart(selectedProduct);
                 } else {
                     Utils.print("Login to explore this feature...");
                 }
                 break;
-    
+
+            case 4:
+                if (order != null) {
+                    order.getCartItems();
+                } else {
+                    Utils.print("Login to explore this feature...");
+                }
+                break;
             default:
                 flag = false;
                 break;
