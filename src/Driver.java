@@ -11,6 +11,8 @@ public class Driver {
         Scanner scanner = new Scanner(System.in);
         scanner.useDelimiter("\n");
 
+        user = new User("1234567890", scanner);
+
         Vector<String> options = new Vector<>();
         options.add("Login");
         options.add("Add Product");
@@ -19,6 +21,7 @@ public class Driver {
         options.add("View Your Cart");
         options.add("Order");
         options.add("See options");
+        options.add("All Orders");
         options.add("Exit");
 
         Products products = new Products();
@@ -79,6 +82,13 @@ public class Driver {
 
             case 6:
                 Utils.showOptions(options);
+                break;
+
+            case 7:
+                Orders orders = new Orders();
+                Vector<Order> ord =  orders.getAllOrders();
+                Print.printOrders(ord);
+                break;
 
             default:
                 flag = false;

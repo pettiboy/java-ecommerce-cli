@@ -2,7 +2,10 @@ package src;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 
 public class Print {
@@ -52,6 +55,35 @@ public class Print {
         for (Product element : printThis) {
             rows.add(Arrays.asList("|", Integer.toString(element.id), "|", (element.name), "|",
                     Double.toString(element.price), "|", (element.description)));
+        }
+
+        System.out.println(Print.formatAsTable(rows, Print.PURPLE, Print.YELLOW));
+    }
+
+    public static void printOrders(Vector<Order> printThis) {
+        List<List<String>> rows = new ArrayList<>();
+        List<String> headers = Arrays.asList("|", "ID", "|", "User", "|", "Products", "|", "Date Ordered");
+        rows.add(headers);
+
+        for (Order element : printThis) {
+            // empty vector 
+            Vector<String> vector = new Vector<>();
+
+            // fill vector with info
+            for (Product e : element.products) {
+                int occurrences = Collections.frequency(element.products, e);
+                vector.add(e.id + "-" + e.name + " x" + occurrences + ", ");
+            }
+
+            // credits: https://stackoverflow.com/a/3042606/14225169
+            Set<String> set = new HashSet<String>();
+            set.addAll(vector);
+            vector.clear();
+            vector.addAll(set);
+            String joined = String.join(",", vector);
+
+            rows.add(Arrays.asList("|", Integer.toString(element.id), "|", element.user.phone, 
+                                   "|", joined, "|", element.dateOrdered));
         }
 
         System.out.println(Print.formatAsTable(rows, Print.PURPLE, Print.YELLOW));
