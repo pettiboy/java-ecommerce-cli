@@ -33,12 +33,12 @@ public class Driver {
                 if (user.isStaff) {
                     products.addProduct(scanner);
                 } else {
-                    Utils.print("You do not have permission to add products.");
+                    Print.print("You do not have permission to add products.");
                 }
                 break;
     
             case 2:
-                Utils.print(products.getProducts());
+                Print.print(products.getProducts());
                 break;
             
             case 3:
@@ -48,14 +48,14 @@ public class Driver {
                         int productId = Utils.getIntInRange("Add to cart, Product ID: ", 1, 10000, scanner);
                         selectedProduct = products.productIdToProduct(productId);
                         if (selectedProduct != null) {
-                            Utils.print(selectedProduct.name + " Added to cart!");
+                            Print.print(selectedProduct.name + " Added to cart!");
                         } else {
-                            Utils.print("Invalid Product ID, try again...");
+                            Print.print("Invalid Product ID, try again...");
                         }
                     }
                     order.addToCart(selectedProduct);
                 } else {
-                    Utils.print("Login to explore this feature...");
+                    Print.print("Login to explore this feature...");
                 }
                 break;
 
@@ -63,14 +63,14 @@ public class Driver {
                 if (order != null) {
                     order.getCartItems();
                 } else {
-                    Utils.print("Login to explore this feature...");
+                    Print.print("Login to explore this feature...");
                 }
                 break;
             case 5:
                 if (order != null) {
                     order.completeOrder();
                 } else {
-                    Utils.print("Login to explore this feature...");
+                    Print.print("Login to explore this feature...");
                 }
                 break;
 
@@ -106,7 +106,7 @@ public class Driver {
                 order = new Order(user);
                 return;
             }
-            Utils.print("Incorrect OTP. Try again...");
+            Print.print("Incorrect OTP. Try again...");
         }
     }
 
