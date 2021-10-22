@@ -5,15 +5,17 @@ import java.util.Vector;
 
 public class Driver {
     static User user;
+    static Order order;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         scanner.useDelimiter("\n");
 
-        Vector<String> options = new Vector<>(2);
+        Vector<String> options = new Vector<>();
         options.add("Authenticate User");
         options.add("Add Product");
         options.add("Show Products");
+        options.add("Add To Cart");
         options.add("Exit");
 
         Products products = new Products();
@@ -35,6 +37,26 @@ public class Driver {
     
             case 2:
                 Utils.print(products.getProducts());
+                break;
+            
+            case 3:
+                if (order != null) {
+                    boolean validProductId = false;
+                    int productId = 1; 
+                    while (!validProductId) {
+                        productId = Utils.getIntInRange("Add to cart, Product ID: ", 1, (int) Utils.numOfLinesIn("products.csv"), scanner);
+                        Product product = products.productIdToProduct(productId);
+                        if (product != null) {
+                            Utils.print(product.name + " Added to cart!");
+                            validProductId = true;
+                        } else {
+                            Utils.print("Invalid Product ID, try again...");
+                        }
+                    }
+                    order.addToCart(productId);
+                } else {
+                    Utils.print("Login to explore this feature...");
+                }
                 break;
     
             default:
@@ -64,6 +86,7 @@ public class Driver {
                 return;
             } else if (phoneOtp.validateOtp(userPhone, userOtp)) {
                 user = new User(userPhone, scanner);
+                order = new Order(user);
                 return;
             }
             Utils.print("Incorrect OTP. Try again...");

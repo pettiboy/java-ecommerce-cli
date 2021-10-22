@@ -9,7 +9,7 @@ import java.io.FileWriter;
 
 
 public class Products {
-    private Vector<Product> products = new Vector<>();
+    Vector<Product> products = new Vector<>();
 
     /**
      * on instantiation loads data from 'products.csv' to a vector called 'products'
@@ -40,6 +40,15 @@ public class Products {
 
     public Vector<Product> getProducts() {
         return this.products;
+    }
+
+    public Product productIdToProduct(int productId) {
+        for (Product product: products) {
+            if (product.id == productId) {
+                return product;
+            }
+        }
+        return null;
     }
 
     public void addProduct(Scanner scanner) {
@@ -95,3 +104,7 @@ class Product {
                 + this.isActive;
     }
 }
+
+// class ProductIO {
+//     public Product productFromId {}
+// }
