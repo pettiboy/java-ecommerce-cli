@@ -34,12 +34,10 @@ public class User {
                     if (line[4].equals("true")) {
                         this.isStaff = true;
                     }
-                    fileScanner.close();
                     this.address = line[2];
                 }
 
             }
-            fileScanner.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -52,18 +50,18 @@ public class User {
         addUserToFile(this);
     }
 
-    public String getOrAddAddress(String phone, Scanner scanner) {        
+    public String getOrAddAddress(String phone, Scanner scanner) {
         // if user was not found get thier address
         if (this.address != null) {
             return this.address;
         }
-        return Utils.getStringInRange("Your Address: ", 1, 100, scanner);
+        return Utils.getStringInRange("📍 Your Address: ", 1, 100, scanner);
     }
 
     public void addUserToFile(User user) {
         String data = user.csvString();
-        
-        // if user was already found in db 
+
+        // if user was already found in db
         if (inDB)
             return;
         try {

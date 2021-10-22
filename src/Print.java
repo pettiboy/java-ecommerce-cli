@@ -1,5 +1,7 @@
 package src;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
@@ -44,10 +46,15 @@ public class Print {
     }
 
     public static void print(Vector<Product> printThis) {
+        List<List<String>> rows = new ArrayList<>();
+        List<String> headers = Arrays.asList("|", "ID", "|", "Name", "|", "Price", "|", "Description");
+        rows.add(headers);
         for (Product element : printThis) {
-            System.out.println(element);
-            System.out.println();
+            rows.add(Arrays.asList("|", Integer.toString(element.id), "|", (element.name), "|",
+                    Double.toString(element.price), "|", (element.description)));
         }
+
+        System.out.println(Print.formatAsTable(rows, Print.PURPLE, Print.YELLOW));
     }
 
     public static String getDashes(int numOfDash) {
