@@ -50,11 +50,24 @@ public class Print {
 
     public static void print(Vector<Product> printThis) {
         List<List<String>> rows = new ArrayList<>();
-        List<String> headers = Arrays.asList("|", "ID", "|", "Name", "|", "Price", "|", "Description");
+        List<String> headers = Arrays.asList("|", "ID", "|", "Name", "|", "Price", "|", "Quantity", "|", "Description");
         rows.add(headers);
+
+        // keep track of elements we've already seen
+        Set<List<String>> productCache = new HashSet<List<String>>();
+
         for (Product element : printThis) {
-            rows.add(Arrays.asList("|", Integer.toString(element.id), "|", (element.name), "|",
-                    Double.toString(element.price), "|", (element.description)));
+            int occurrences = Collections.frequency(printThis, element);
+
+            List<String> toAdd = Arrays.asList("|", Integer.toString(element.id), "|", (element.name), "|",
+                                                Double.toString(element.price), "|", Integer.toString(occurrences), "|", (element.description));
+
+            if (productCache.contains(toAdd)) {
+                continue;
+            } else {
+                rows.add(toAdd);
+                productCache.add(toAdd);
+            }
         }
 
         System.out.println(Print.formatAsTable(rows, Print.PURPLE, Print.YELLOW));
