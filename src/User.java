@@ -29,7 +29,7 @@ public class User {
                 // check is required row is found
                 if (line[1].equals(phone)) {
                     // to prevent duplicate records
-                    inDB = true;
+                    this.inDB = true;
                     // check permissions
                     if (line[4].equals("true")) {
                         this.isStaff = true;
@@ -54,6 +54,9 @@ public class User {
 
     public String getOrAddAddress(String phone, Scanner scanner) {        
         // if user was not found get thier address
+        if (this.address != null) {
+            return this.address;
+        }
         return Utils.getStringInRange("Your Address: ", 1, 100, scanner);
     }
 
@@ -64,13 +67,12 @@ public class User {
         if (inDB)
             return;
         try {
-            // Creates a Writer using FileWriter
             FileWriter writer = new FileWriter("./data/users.csv", true);
-            // Writes string and line seperator to the file
             writer.write(data);
             writer.write(System.getProperty("line.separator"));
-            // Closes the writer
             writer.close();
+
+            this.inDB = true;
         } catch (Exception e) {
             e.getStackTrace();
         }

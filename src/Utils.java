@@ -124,8 +124,12 @@ public class Utils {
         // return 100000;
         File file = new File(fileName);
         String[] lastRow = LastLine.tail(file).split(",");
-        int lastId = Integer.parseInt(lastRow[0]); 
-        return lastId + 1;
+        try {
+            int lastId = Integer.parseInt(lastRow[0]);
+            return lastId + 1;
+        } catch(Exception e) {
+            return 1;
+        }
     }
 
     // handle printing to console using method overloading

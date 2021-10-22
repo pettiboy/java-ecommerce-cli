@@ -17,6 +17,7 @@ public class Driver {
         options.add("Show Products");
         options.add("Add To Cart");
         options.add("View Your Cart");
+        options.add("Order");
         options.add("Exit");
 
         Products products = new Products();
@@ -65,10 +66,20 @@ public class Driver {
                     Utils.print("Login to explore this feature...");
                 }
                 break;
+            case 5:
+                if (order != null) {
+                    order.completeOrder();
+                } else {
+                    Utils.print("Login to explore this feature...");
+                }
+                break;
+
             default:
                 flag = false;
                 break;
             }
+            
+
         }
         scanner.close();
     }    
