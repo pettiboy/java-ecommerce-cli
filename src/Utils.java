@@ -4,8 +4,8 @@ import java.util.Scanner;
 import java.util.Vector;
 import java.io.File;
 import java.math.BigInteger;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
+// import java.nio.charset.Charset;
+// import java.nio.file.Files;
 
 
 public class Utils {
@@ -115,13 +115,17 @@ public class Utils {
     }
 
     // file management
-    public static long numOfLinesIn(String fileName) {
-        try {
-            return Files.lines(new File(fileName).toPath(), Charset.defaultCharset()).count() + 1;
-        } catch (Exception e) {
-            e.getStackTrace();
-        }
-        return 100000;
+    public static int getNewId(String fileName) {
+        // try {
+        //     return Files.lines(new File(fileName).toPath(), Charset.defaultCharset()).count() + 1;
+        // } catch (Exception e) {
+        //     e.getStackTrace();
+        // }
+        // return 100000;
+        File file = new File(fileName);
+        String[] lastRow = LastLine.tail(file).split(",");
+        int lastId = Integer.parseInt(lastRow[0]); 
+        return lastId + 1;
     }
 
     // handle printing to console using method overloading

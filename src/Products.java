@@ -51,7 +51,7 @@ public class Products {
     }
 
     public void addProduct(Scanner scanner) {
-        int id = (int) Utils.numOfLinesIn("./data/products.csv");
+        int id = Utils.getNewId("./data/products.csv");
         String name = Utils.getStringInRange("Product Name: ", 1, 30, scanner);
         Double price = Utils.getDoubleInRange("Product Price: ", 1.0, 1000.0, scanner);
         String description = Utils.getStringInRange("Product Description: ", 1, 100, scanner);
@@ -103,7 +103,3 @@ class Product {
                 + this.isActive;
     }
 }
-
-// class ProductIO {
-//     public Product productFromId {}
-// }

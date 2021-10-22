@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 
-
 public class User {
     Integer id;
     String phone;
@@ -14,9 +13,38 @@ public class User {
     Date timestamp;
     boolean isStaff;
     private boolean inDB = false;
-    
+
     public User(String phone, Scanner scanner) {
-        this.id = (int) Utils.numOfLinesIn("./data/users.csv");
+
+        File file = new File("./data/users.csv");
+        Scanner fileScanner;
+        try {
+            fileScanner = new Scanner(file);
+            // process the file, one line at a time
+            while (fileScanner.hasNextLine()) {
+
+                // split the line on comma
+                String[] line = fileScanner.nextLine().split(",");
+
+                // check is required row is found
+                if (line[1].equals(phone)) {
+                    // to prevent duplicate records
+                    inDB = true;
+                    // check permissions
+                    if (line[4].equals("true")) {
+                        this.isStaff = true;
+                    }
+                    fileScanner.close();
+                    this.address = line[2];
+                }
+
+            }
+            fileScanner.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        this.id = Utils.getNewId("./data/users.csv");
         this.phone = phone;
         this.address = getOrAddAddress(phone, scanner);
         this.timestamp = new Date();
@@ -24,33 +52,17 @@ public class User {
         addUserToFile(this);
     }
 
-    public String getOrAddAddress(String phone, Scanner scanner) {
-        File file = new File("./data/users.csv");
-        Scanner fileScanner;
-        try {
-            fileScanner = new Scanner(file);
-            // process the file, one line at a time
-            while (fileScanner.hasNextLine()) {
-                String[] line = fileScanner.nextLine().split(",");
-                if (line[1].equals(phone)) {
-                    fileScanner.close();
-                    inDB = true;
-                    if (line[4].equals("true")) {
-                        this.isStaff = true;
-                    }
-                    return line[2];                    
-                }
-            }
-            fileScanner.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }        
+    public String getOrAddAddress(String phone, Scanner scanner) {        
+        // if user was not found get thier address
         return Utils.getStringInRange("Your Address: ", 1, 100, scanner);
     }
 
     public void addUserToFile(User user) {
         String data = user.csvString();
-        if (inDB) return;
+        
+        // if user was already found in db 
+        if (inDB)
+            return;
         try {
             // Creates a Writer using FileWriter
             FileWriter writer = new FileWriter("./data/users.csv", true);
@@ -65,7 +77,8 @@ public class User {
     }
 
     public String csvString() {
-        return this.id.toString() + "," + this.phone + "," + this.address.toString() + "," + this.timestamp + "," + this.isStaff;
+        return this.id.toString() + "," + this.phone + "," + this.address.toString() + "," + this.timestamp + ","
+                + this.isStaff;
     }
 
 }
