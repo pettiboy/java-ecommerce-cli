@@ -11,8 +11,6 @@ public class Driver {
         Scanner scanner = new Scanner(System.in);
         scanner.useDelimiter("\n");
 
-        user = new User("1234567890", scanner);
-
         Vector<String> options = new Vector<>();
         options.add("Login");
         options.add("Add Product");
@@ -74,7 +72,7 @@ public class Driver {
                 break;
             case 5:
                 if (order != null) {
-                    order.completeOrder();
+                    order.completeOrder(scanner);
                 } else {
                     Print.print("Login to explore this feature...", Print.YELLOW);
                 }

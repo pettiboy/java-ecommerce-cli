@@ -25,7 +25,7 @@ public class Order {
 
     public void getCartItems() {
         if (this.products.size() > 0) {
-            Print.print(this.products);
+            Print.print(this.products, this.getCartTotal(this));
         } else {
             Print.print("your cart is empty...");
         }
@@ -34,16 +34,30 @@ public class Order {
     /**
      * marks order as complete, updates date and saves info to DB
      */
-    public void completeOrder() {
+    public void completeOrder(Scanner scanner) {
         if (this.products.size() > 0) {
             this.dateOrdered = new Date().toString();
             this.complete = true;
+            
+            Print.print("Your order total is: ₹" + getCartTotal(this), Print.YELLOW);
 
-            addOrderToFile();
-            Print.print("✅ Order Placed.", Print.GREEN);
+            String value = Utils.getStringInRange("Press 'y' to place your order:  ", 1, 1, scanner);
+
+            if (value.equals("y"))  {
+                addOrderToFile();
+                Print.print("✅ Order Placed.", Print.GREEN);
+            }
         } else {
             Print.print("Make sure you add products to your cart first...", Print.YELLOW);
         }
+    }
+
+    public Double getCartTotal(Order order) {
+        Double total = (double) 0;
+        for (Product product: this.products) {
+            total += product.price;
+        }
+        return total;
     }
 
     public void addOrderToFile() {
@@ -116,4 +130,3 @@ class Orders {
     }
 
 }
-// view all orders (admin only)

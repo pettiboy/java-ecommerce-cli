@@ -48,19 +48,21 @@ public class Print {
         System.out.println(printThis);
     }
 
-    public static void print(Vector<Product> printThis) {
+    public static void print(Vector<Product> printThis, Double cartTotal) {
         List<List<String>> rows = new ArrayList<>();
         List<String> headers = Arrays.asList("|", "ID", "|", "Name", "|", "Price", "|", "Quantity", "|", "Description");
         rows.add(headers);
 
         // keep track of elements we've already seen
+        // (https://stackoverflow.com/a/10457632/14225169)
         Set<List<String>> productCache = new HashSet<List<String>>();
 
         for (Product element : printThis) {
             int occurrences = Collections.frequency(printThis, element);
 
             List<String> toAdd = Arrays.asList("|", Integer.toString(element.id), "|", (element.name), "|",
-                                                Double.toString(element.price), "|", Integer.toString(occurrences), "|", (element.description));
+                    "₹" + Double.toString(element.price), "|", Integer.toString(occurrences), "|",
+                    (element.description));
 
             if (productCache.contains(toAdd)) {
                 continue;
@@ -68,6 +70,22 @@ public class Print {
                 rows.add(toAdd);
                 productCache.add(toAdd);
             }
+        }
+        rows.add(Arrays.asList("|", "", "|", "", "|", "", "|", "", "|", ""));
+        rows.add(Arrays.asList("|", "Total: ", "|", "", "|", "₹" + Double.toString(cartTotal), "|", " ", "|", ""));
+
+        System.out.println(Print.formatAsTable(rows, Print.PURPLE, Print.YELLOW));
+    }
+
+    public static void print(Vector<Product> printThis) {
+        List<List<String>> rows = new ArrayList<>();
+        List<String> headers = Arrays.asList("|", "ID", "|", "Name", "|", "Price", "|", "Description");
+        rows.add(headers);
+
+        for (Product element : printThis) {
+            List<String> toAdd = Arrays.asList("|", Integer.toString(element.id), "|", (element.name), "|",
+                    "₹" + Double.toString(element.price), "|", (element.description));
+            rows.add(toAdd);
         }
 
         System.out.println(Print.formatAsTable(rows, Print.PURPLE, Print.YELLOW));
@@ -79,7 +97,7 @@ public class Print {
         rows.add(headers);
 
         for (Order element : printThis) {
-            // empty vector 
+            // empty vector
             Vector<String> vector = new Vector<>();
 
             // fill vector with info
@@ -95,8 +113,8 @@ public class Print {
             vector.addAll(set);
             String joined = String.join(",", vector);
 
-            rows.add(Arrays.asList("|", Integer.toString(element.id), "|", element.user.phone, 
-                                   "|", joined, "|", element.dateOrdered));
+            rows.add(Arrays.asList("|", Integer.toString(element.id), "|", element.user.phone, "|", joined, "|",
+                    element.dateOrdered));
         }
 
         System.out.println(Print.formatAsTable(rows, Print.PURPLE, Print.YELLOW));

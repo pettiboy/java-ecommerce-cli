@@ -26,7 +26,8 @@ public class PhoneOtp {
 
     private static String getOtp() {
         Random rand = new Random();
-        return Integer.toString((rand.nextInt(1000000)));
+        int number = (rand.nextInt(1000000)) + 100000;
+        return String.format("%06d", number);
     }
 
     private boolean sendOtp(String otp) {
