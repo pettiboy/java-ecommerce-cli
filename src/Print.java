@@ -103,7 +103,8 @@ public class Print {
             // fill vector with info
             for (Product e : element.products) {
                 int occurrences = Collections.frequency(element.products, e);
-                vector.add(e.id + "-" + e.name + " x" + occurrences + ", ");
+                // vector.add("ID:" + e.id + ", " + e.name + " x" + occurrences + "; ");
+                vector.add("Product Id:" + e.id +  " x " + occurrences + "; ");
             }
 
             // credits: https://stackoverflow.com/a/3042606/14225169
@@ -111,7 +112,7 @@ public class Print {
             set.addAll(vector);
             vector.clear();
             vector.addAll(set);
-            String joined = String.join(",", vector);
+            String joined = String.join("", vector);
 
             rows.add(Arrays.asList("|", Integer.toString(element.id), "|", element.user.phone, "|", joined, "|",
                     element.dateOrdered));

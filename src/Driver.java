@@ -6,6 +6,7 @@ import java.util.Vector;
 public class Driver {
     static User user;
     static Order order;
+    static Orders orders;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -20,6 +21,7 @@ public class Driver {
         options.add("Order");
         options.add("See options");
         options.add("All Orders");
+        options.add("View Completed Order Cart");
         options.add("Exit");
 
         Products products = new Products();
@@ -34,7 +36,9 @@ public class Driver {
                 break;
 
             case 1:
-                if (user.isStaff) {
+                if (user == null) {
+                    Print.print("Login to explore this feature...", Print.YELLOW);
+                } else if (user.isStaff) {
                     products.addProduct(scanner);
                 } else {
                     Print.print("You do not have permission to add products.", Print.YELLOW);
@@ -83,9 +87,28 @@ public class Driver {
                 break;
 
             case 7:
-                Orders orders = new Orders();
-                Vector<Order> ord =  orders.getAllOrders();
-                Print.printOrders(ord);
+                if (user == null) {
+                    Print.print("Login to explore this feature...", Print.YELLOW);
+                } else if (user.isStaff) {
+                    Orders useOrders = getOrCreateOrders();
+                    Vector<Order> ord = useOrders.getAllOrders();
+                    Print.printOrders(ord);
+                } else {
+                    Print.print("You do not have permission to view all Orders.", Print.YELLOW);
+                }
+
+                break;
+
+            case 8:
+                if (user == null) {
+                    Print.print("Login to explore this feature...", Print.YELLOW);
+                } else if (user.isStaff) {
+                    Orders useOrders1 = getOrCreateOrders();
+                    int orderId = Utils.getIntInRange("Order ID: ", 1, 100, scanner);
+                    useOrders1.printCartOf(orderId);
+                } else {
+                    Print.print("You do not have permission to view order details.", Print.YELLOW);
+                }
                 break;
 
             default:
@@ -121,6 +144,15 @@ public class Driver {
             }
             Print.print("❗️ Incorrect OTP. Try again...", Print.RED);
         }
+    }
+
+    public static Orders getOrCreateOrders() {
+        if (orders != null) {
+            return orders;
+        }
+        Orders createOrders = new Orders();
+        orders = createOrders;
+        return orders;
     }
 
 }

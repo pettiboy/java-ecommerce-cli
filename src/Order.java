@@ -104,7 +104,7 @@ class Orders {
                 if (line[4].equals("true")) {
                     User user = new User(line[1], new Scanner(System.in));
                     Order order = new Order(user);
-
+                    order.id = Integer.parseInt(line[0]);
                     String[] allProductIds = line[2].split("|");
                     for (String productId : allProductIds) {
                         if (productId.equals("|")) {continue;}
@@ -127,6 +127,18 @@ class Orders {
 
     public Vector<Order> getAllOrders() {
         return this.orders;
+    }
+    
+    public void printCartOf(int orderId) {
+        Order useOrder;
+        for (Order order: this.orders) {
+            if (order.id == orderId) {
+                useOrder = order;
+                useOrder.getCartItems();
+                return;
+            }
+        }
+        Print.print("Invalid Order ID...", Print.RED);
     }
 
 }

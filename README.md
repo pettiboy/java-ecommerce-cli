@@ -1,5 +1,22 @@
 # Java E-Commerce CLI
 
-- [ ] Show admin option only if user is admin
-- [ ] Fetch all orders for staff only
-- [ ] order total before confirming order
+## Usage
+
+### Clone repo
+
+```
+git clone git@github.com:pettiboy/java-ecommerce-cli.git
+cd java-ecommerce-cli
+```
+
+### Run code
+
+run the main method in `src/Driver.java`
+
+## Contributing
+
+```
+git add src
+git commit -m "descriptive commit message"
+git push
+```
