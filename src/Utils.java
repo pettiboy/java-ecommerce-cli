@@ -18,8 +18,6 @@ public class Utils {
         List<String> headers = Arrays.asList("|", "Option", "|", "Task");
         rows.add(headers);
         for (int i = 0; i < options.size(); i++) {
-            // Print.print("| " + (i + 1) + "." + " | " + options.get(i) + (" " + 10)+ "|",
-            // Print.CYAN);
             validOptions.add(i + 1);
             rows.add(Arrays.asList("|", Integer.toString(i + 1) + ".", "|", options.get(i)));
         }
@@ -34,7 +32,7 @@ public class Utils {
         for (int i = 0; i < options.size(); i++) {
             validOptions.add(i + 1);
         }
-        return getIntInRange(Print.GREEN + "Your Choice: " + Print.RESET, 1, validOptions.size(), scanner) - 1;
+        return getIntInRange(Print.GREEN + "Your Choice: " + Print.RESET, 1, validOptions.size(), scanner);
     }
 
     // getting values

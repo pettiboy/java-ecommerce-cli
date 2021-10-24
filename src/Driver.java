@@ -13,15 +13,25 @@ public class Driver {
         scanner.useDelimiter("\n");
 
         Vector<String> options = new Vector<>();
+
+        // authentication
         options.add("Login");
-        options.add("Add Product");
-        options.add("Show Products");
+
+        // no auth req
+        options.add("Show Products Catalogue");
+
+        // auth required
         options.add("Add To Cart");
         options.add("View Your Cart");
-        options.add("Order");
-        options.add("See options");
-        options.add("All Orders");
+        options.add("Order Now");
+
+        // admin
+        options.add("Add New Product To Catalogue");
+        options.add("View All Completed Orders");
         options.add("View Completed Order Cart");
+
+        // utils (no auth req)
+        options.add("See options");
         options.add("Exit");
 
         Products products = new Products();
@@ -31,32 +41,25 @@ public class Driver {
             int caseChosen = Utils.getOption(options, scanner);
 
             switch (caseChosen) {
-            case 0:
+            case 1:
+                // Login
                 authenticateUser(scanner);
                 break;
 
-            case 1:
-                if (user == null) {
-                    Print.print("Login to explore this feature...", Print.YELLOW);
-                } else if (user.isStaff) {
-                    products.addProduct(scanner);
-                } else {
-                    Print.print("You do not have permission to add products.", Print.YELLOW);
-                }
-                break;
-
             case 2:
+                // show all products
                 Print.print(products.getProducts());
                 break;
 
             case 3:
+                // add product to cart
                 if (order != null) {
                     Product selectedProduct = null;
                     while (selectedProduct == null) {
                         int productId = Utils.getIntInRange("Add to cart, Product ID: ", 1, 10000, scanner);
                         selectedProduct = products.productIdToProduct(productId);
                         if (selectedProduct != null) {
-                            Print.print(selectedProduct.name + " ✅ Added to cart.", Print.GREEN);
+                            Print.print(selectedProduct.name + " Added to cart ✅", Print.GREEN);
                         } else {
                             Print.print("Invalid Product ID, try again...", Print.RED);
                         }
@@ -68,13 +71,16 @@ public class Driver {
                 break;
 
             case 4:
+                // view your cart
                 if (order != null) {
                     order.getCartItems();
                 } else {
                     Print.print("Login to explore this feature...", Print.YELLOW);
                 }
                 break;
+
             case 5:
+                // order
                 if (order != null) {
                     order.completeOrder(scanner);
                 } else {
@@ -83,10 +89,18 @@ public class Driver {
                 break;
 
             case 6:
-                Utils.showOptions(options);
+                // add product to catalouge
+                if (user == null) {
+                    Print.print("Login to explore this feature...", Print.YELLOW);
+                } else if (user.isStaff) {
+                    products.addProduct(scanner);
+                } else {
+                    Print.print("You do not have permission to add products.", Print.YELLOW);
+                }
                 break;
 
             case 7:
+                // Print all completed orders (admin only)
                 if (user == null) {
                     Print.print("Login to explore this feature...", Print.YELLOW);
                 } else if (user.isStaff) {
@@ -99,7 +113,13 @@ public class Driver {
 
                 break;
 
+            case 9:
+                // show options
+                Utils.showOptions(options);
+                break;
+
             case 8:
+                // view order details
                 if (user == null) {
                     Print.print("Login to explore this feature...", Print.YELLOW);
                 } else if (user.isStaff) {
@@ -139,7 +159,7 @@ public class Driver {
                 user = new User(userPhone, scanner);
                 order = new Order(user);
 
-                Print.print("✅ Logged In", Print.GREEN);
+                Print.print("Logged In ✅", Print.GREEN);
                 return;
             }
             Print.print("❗️ Incorrect OTP. Try again...", Print.RED);
