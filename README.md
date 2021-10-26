@@ -2,7 +2,7 @@
 
 ## Class diagram
 
-![Class Diagram](https://github.com/pettiboy/java-ecommerce-cli/blob/main/assets/class-diagram.png?raw=true)
+![Class Diagram](assets/class-diagram.png)
 
 ## Usage
 
@@ -18,6 +18,10 @@ cd java-ecommerce-cli
 run the main method in `src/Driver.java`
 
 ## Demo
+
+![Class Diagram](assets/ss-1.png)
+![Class Diagram](assets/ss-2.png)
+![Class Diagram](assets/ss-3.png)
 
 ## Contributing
 
