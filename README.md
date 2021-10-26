@@ -2,7 +2,7 @@
 
 ## Class diagram
 
-![Class Diagram](https://github.com/pettiboy/java-ecommerce-cli/tree/main/assets/class-diagram.png?raw=true)
+![Class Diagram](https://github.com/pettiboy/java-ecommerce-cli/blob/main/assets/class-diagram.png?raw=true)
 
 ## Usage
 
