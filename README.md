@@ -1,5 +1,9 @@
 # Java E-Commerce CLI
 
+## Class diagram
+
+![Class Diagram](https://github.com/pettiboy/java-ecommerce-cli/tree/main/assets/class-diagram.png?raw=true)
+
 ## Usage
 
 ### Clone repo
@@ -12,6 +16,8 @@ cd java-ecommerce-cli
 ### Run code
 
 run the main method in `src/Driver.java`
+
+## Demo
 
 ## Contributing
 
